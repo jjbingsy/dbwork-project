@@ -1,0 +1,20 @@
+# Directories
+flists/
+images/
+.venv/
+.vscode/
+
+# Sensitive / local files
+media_dirs.txt
+GuruBase.db
+unified.db
+trust1.env
+dbwork/config.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Kivy
+*.pyc

@@ -1,0 +1,148 @@
+MDBoxLayout:
+
+    #md_bg_color: self.theme_cls.secondaryContainerColor
+    orientation: 'vertical'
+    #padding: "10dp"
+    #spacing: "10dp"
+
+    MDTopAppBar:
+        type: "small"
+        size_hint_x: .6
+        pos_hint: {"center_x": 0.5, "center_y": .5}
+
+        MDTopAppBarLeadingButtonContainer:
+
+            MDActionTopAppBarButton:
+                id: load_bookmark_button
+                icon: "menu"
+                on_release: app.load_bookmark(self)
+            MDTextField:
+                id: search_field
+                mode: "outlined"
+                size_hint_x: None
+                width: "240dp"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_text_validate: app.collector.collect_search(self.text)
+                
+
+                MDTextFieldLeadingIcon:
+                    icon: "account"
+
+                MDTextFieldHintText:
+                    text: "Outlined"
+
+                MDTextFieldHelperText:
+                    text: "Helper text"
+                    mode: "persistent"
+
+                MDTextFieldTrailingIcon:
+                    icon: "information"
+
+                MDTextFieldMaxLengthText:
+                    max_text_length: 10                
+
+   
+
+        MDTopAppBarTrailingButtonContainer:
+
+            MDActionTopAppBarButton:
+                icon: "account-circle-outline"     
+                on_release: app.collector.reset_films()
+    MDTopAppBar:
+        type: "small"
+        size_hint_x: 1
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDTopAppBarLeadingButtonContainer:
+
+            MDActionTopAppBarButton:
+                icon: "menu"
+
+        MDTopAppBarTitle:
+            id: home_button
+            text: "AppBar small"
+            halign: "center"
+            
+
+        MDTopAppBarTrailingButtonContainer:
+
+            MDActionTopAppBarButton:
+                icon: "account-circle-outline"            
+
+    MyRV:
+        viewclass: 'FilmTile'
+
+        MyScreen:
+            padding: ('20dp', '25dp', '20dp', '20dp')
+            id: rgg
+            #510, 344
+            default_size: dp(510), dp(344)
+            default_size_hint: None, None
+            spacing: dp(20)
+            #cols: 5
+            cols: 4
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'lr-tb'
+
+
+<FilmTile>:
+    pos_hint: {"center_x": .5, "center_y": .5}
+    size_hint: None, None
+    size: "589dp", "400dp"
+    overlap: True
+    on_release: app.root.ids.home_button.text = root.description
+
+
+    MDSmartTileImage:
+        source: root.image_path
+        radius: [dp(24), dp(24), dp(24), dp(24)]
+
+    MDSmartTileOverlayContainer:
+        md_bg_color: .7, .7, .9, .9
+        adaptive_height: True
+        padding: "8dp"
+        spacing: "8dp"
+        radius: [0, 0, dp(24), dp(24)]
+
+        MDIconButton:
+            icon: "heart-outline"
+            theme_icon_color: "Custom"
+            icon_color: 1, 0, 0, 1
+            pos_hint: {"center_y": .5}
+            on_release: app.collector.collect_idols(root.idol_id)
+
+        MDLabel:
+            id: film_code_label
+            text: root.film_code + " - " + root.idol_name
+            theme_text_color: "Custom"
+            text_color: "black"
+
+        MDIconButton:
+            icon: "play-outline"
+            theme_icon_color: "Custom"
+            icon_color: 1, 0, 0, 1
+            pos_hint: {"center_y": .5}
+            on_release: app.play_me(root.film_code)
+
+        MDIconButton:
+            icon: "dots-vertical"
+            theme_icon_color: "Custom"
+            disabled: root.idol_count < 2
+            icon_color: 1, 0, 0, 1
+            pos_hint: {"center_y": .5}
+            on_release: root.change_idol()
+
+        MDIconButton:
+            icon: "menu"
+            on_release: app.collector.collect_series(root.series_id)
+            disabled: root.series_id == 0
+            theme_icon_color: "Custom"
+            icon_color: 1, 0, 0, 1
+            pos_hint: {"center_y": .5}
+        MDIconButton:
+            icon: "plus"
+            theme_icon_color: "Custom"
+            icon_color: 1, 0, 0, 1
+            pos_hint: {"center_y": .5}
+            on_release: app.save_bookmark(self, root.film_code)
