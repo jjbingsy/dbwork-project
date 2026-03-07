@@ -160,6 +160,7 @@ def update_guru_series_key(film_code, series_key):
 
 def film_exists(film_code):
     """Check if a film already exists in unified.db."""
+    #print (db.DB_PATH)
     conn = sqlite3.connect(db.DB_PATH)
     row = conn.execute(
         "SELECT 1 FROM films WHERE film_code = ?", (film_code,)

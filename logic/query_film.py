@@ -23,7 +23,7 @@ MPV = os.getenv("MPV_DIRECTORY")
 
 def play_me_out_deleted(files):
     MPV_DIRECTORY = "/usr/bin/mpv"
-    MPV_PLATFORM_OPTIONS = "--fs-screen=1"
+    MPV_PLATFORM_OPTIONS = "--fs-screen=0"
     t = [MPV_DIRECTORY, '--fs', MPV_PLATFORM_OPTIONS, '--loop-playlist']
     cnt = 0
     # for i, j, k in self.film_path:
