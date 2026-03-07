@@ -9,7 +9,6 @@ media_dirs.txt
 GuruBase.db
 unified.db
 trust1.env
-dbwork/config.py
 
 # Python
 __pycache__/
