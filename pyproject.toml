@@ -3,7 +3,7 @@ name = "TInv"
 version = "0.3.0"
 description = "TInvent"
 readme = "README.md"
-requires-python = ">=3.13.11"
+requires-python = "<3.14.0,>=3.11.0"
 dependencies = [
     "bs4>=0.0.2",
     "fuzzywuzzy>=0.18.0",
