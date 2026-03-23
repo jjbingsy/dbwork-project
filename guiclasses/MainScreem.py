@@ -60,7 +60,8 @@ class MyRV(MDRecycleView):
         MDApp.get_running_app().collector = self
     
     def reset_films(self):
-        MainLogic()._initialized = False
+        MainLogic().addnew()
+        #MainLogic()._initialized = False
     
     def collect_idols(self, idol_id):
         #h = MainLogic()

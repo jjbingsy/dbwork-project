@@ -270,6 +270,13 @@ def ingest(url):
             return
 
     _ingest_to_dbs(film, html, image_data)
+    with sqlite3.connect(DB_PATH) as gdba:
+        gdba.execute(
+            "INSERT OR REPLACE INTO NEW_films(film) VALUES (?)",
+            (film.code,),
+        )
+    print (f"added new film {film.code}")
+        
 
 
 if __name__ == "__main__":

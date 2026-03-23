@@ -84,11 +84,21 @@ class MainLogic:
         Returns a sorted list of (media_path, film_code, status) tuples where status is 'exists' if the film is in the DB, or None if it's new."""
         if hasattr(self, '_initialized') and self._initialized:
             return
+
         self._initialized = True
         
         self.films_loc.clear()
-        self.film_path = check_media_dirs(Path('media_dirs.txt'))
-        for media_path, film,  exusts in self.film_path:
+        film_path1 = check_media_dirs(Path('media_dirs.txt'))
+        for media_path, film,  exusts in film_path1:
+            if not exusts:
+                print(f"Warning: {media_path} has film code {film} which is not in the database.")
+                input("Press Enter to continue...")
+            else:
+                self.films_loc[film].append(media_path)
+
+
+        film_path2 = check_media_dirs(Path('new_dirs.txt'))
+        for media_path, film,  exusts in film_path2:
             if not exusts:
                 print(f"Warning: {media_path} has film code {film} which is not in the database.")
                 input("Press Enter to continue...")
@@ -99,16 +109,43 @@ class MainLogic:
         
         
         
-        
-        
-        
         conn = sqlite3.connect(FDB)
         cursor = conn.cursor()
         cursor.execute("SELECT film_code FROM films")  
         result = cursor.fetchall()
         for film_code, in result:
             self.films[film_code] = Film(film_code)
-         
+        cursor.execute("DELETE FROM new_films") 
+        conn.commit()
+        conn.close()
+
+
+        
+    def addnew(self):
+        film_path2 = check_media_dirs(Path('new_dirs.txt'))
+        for media_path, film,  exusts in film_path2:
+            if not exusts:
+                print(f"Warning: {media_path} has film code {film} which is not in the database.")
+                input("Press Enter to continue...")
+            else:
+                if media_path not in self.films_loc[film]:
+                    self.films_loc[film].append(media_path)
+        
+        conn = sqlite3.connect(FDB)
+        cursor = conn.cursor()
+        cursor.execute("SELECT film FROM new_films")  
+        result = cursor.fetchall()
+        for film_code, in result:
+            print (f"checking {film_code}")
+            if film_code not in self.films:
+                self.films[film_code] = Film(film_code)
+                print (f"added {film_code}")
+        cursor.execute("DELETE FROM new_films")  
+        conn.commit()
+        conn.close()
+        
+
+
         
         
     def play_me_out_deleted3(self, name):

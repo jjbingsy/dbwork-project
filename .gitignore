@@ -6,6 +6,7 @@ images/
 
 # Sensitive / local files
 media_dirs.txt
+new_dirs.txt
 GuruBase.db
 unified.db
 trust1.env
